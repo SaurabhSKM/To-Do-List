@@ -1,8 +1,9 @@
 from django.db import models
-
+from django.core.exceptions import ValidationError
+from django.utils import timezone
 # Create your models here.
 class Tag(models.Model):
-    title = models.CharField(max_length=50, unique=True)
+    title = models.CharField(max_length=50, unique=True,blank=False)
     objects= models.Manager()
 
     def __str__(self):
@@ -25,4 +26,8 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def clean(self):
+        if self.Due_date and self.Due_date < timezone.now().date():
+            raise ValidationError("Due date cannot be in the past.")
     

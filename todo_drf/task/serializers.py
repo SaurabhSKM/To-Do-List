@@ -7,7 +7,7 @@ class TagSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class TaskSerializer(serializers.ModelSerializer):
-    tags = TagSerializer(many=True, read_only=True)
+    #tags = TagSerializer(many=True, read_only=True)
 
     class Meta:
         model = Task

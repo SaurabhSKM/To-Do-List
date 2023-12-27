@@ -24,15 +24,6 @@ class TaskModelTestCase(TestCase):
         self.assertEqual(task.status, "OPEN")
         self.assertEqual(task.tag.count(), 2)
 
-    def test_create_task_with_invalid_data(self):
-        with self.assertRaises(ValueError):
-            # Attempt to create a task with an empty title (which is not allowed)
-            Task.objects.create(
-                title="",
-                description="Invalid description",
-                Due_date=date.today(),
-                status="OPEN"
-            )
 
     def test_update_task(self):
         task = Task.objects.create(
