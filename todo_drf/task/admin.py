@@ -19,11 +19,6 @@ class TaskAdmin(admin.ModelAdmin):
         }),
     )
 
-    def save_model(self, request, obj, form, change):
-        # Enforce validation checks before saving the model
-        if obj.Due_date and obj.Due_date < timezone.now().date():
-            raise ValidationError("Due date cannot be in the past.")
-        super().save_model(request, obj, form, change)
 
 class TagAdmin(admin.ModelAdmin):
     list_display = ('title',)
