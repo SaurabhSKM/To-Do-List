@@ -25,16 +25,4 @@ jobs:
 
     - name: Run tests
       run: |
-        python manage.py test task.tests
-
-    - name: Deploy to staging (replace with your deployment steps)
-      if: success()
-      run: |
-        # Add deployment steps here, such as deploying to a staging environment
-        echo "Deploying to staging..."
-
-    - name: Deploy to production (replace with your deployment steps)
-      if: success() && github.event_name == 'push' && github.ref == 'refs/heads/main'
-      run: |
-        # Add deployment steps here, such as deploying to a production environment
-        echo "Deploying to production..."
+        python todo_drf/manage.py test task.tests
