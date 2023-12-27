@@ -1,0 +1,40 @@
+name: Django CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.11
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run tests
+      run: |
+        python manage.py test task.tests
+
+    - name: Deploy to staging (replace with your deployment steps)
+      if: success()
+      run: |
+        # Add deployment steps here, such as deploying to a staging environment
+        echo "Deploying to staging..."
+
+    - name: Deploy to production (replace with your deployment steps)
+      if: success() && github.event_name == 'push' && github.ref == 'refs/heads/main'
+      run: |
+        # Add deployment steps here, such as deploying to a production environment
+        echo "Deploying to production..."

@@ -5,47 +5,63 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('task', '0002_task_created_at'),
+        ("task", "0002_task_created_at"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Tag',
+            name="Tag",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50, unique=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50, unique=True)),
             ],
         ),
         migrations.RemoveField(
-            model_name='task',
-            name='completed',
+            model_name="task",
+            name="completed",
         ),
         migrations.AddField(
-            model_name='task',
-            name='Due_date',
+            model_name="task",
+            name="Due_date",
             field=models.DateField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='task',
-            name='description',
+            model_name="task",
+            name="description",
             field=models.CharField(default=django.utils.timezone.now, max_length=1000),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='task',
-            name='status',
-            field=models.CharField(choices=[('OPEN', 'Open'), ('WORKING', 'Working'), ('DONE', 'Done'), ('OVERDUE', 'Overdue')], default='OPEN', max_length=10),
+            model_name="task",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    ("OPEN", "Open"),
+                    ("WORKING", "Working"),
+                    ("DONE", "Done"),
+                    ("OVERDUE", "Overdue"),
+                ],
+                default="OPEN",
+                max_length=10,
+            ),
         ),
         migrations.AlterField(
-            model_name='task',
-            name='title',
+            model_name="task",
+            name="title",
             field=models.CharField(max_length=100),
         ),
         migrations.AddField(
-            model_name='task',
-            name='tag',
-            field=models.ManyToManyField(blank=True, to='task.tag'),
+            model_name="task",
+            name="tag",
+            field=models.ManyToManyField(blank=True, to="task.tag"),
         ),
     ]

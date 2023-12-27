@@ -4,6 +4,7 @@ from django.test import TestCase
 from ..models import Task, Tag
 from datetime import date
 
+
 class TaskModelTestCase(TestCase):
     def setUp(self):
         self.tag1 = Tag.objects.create(title="Tag1")
@@ -14,7 +15,7 @@ class TaskModelTestCase(TestCase):
             title="Valid Task",
             description="Valid description",
             Due_date=date.today(),
-            status="OPEN"
+            status="OPEN",
         )
         task.tag.add(self.tag1, self.tag2)
 
@@ -24,13 +25,12 @@ class TaskModelTestCase(TestCase):
         self.assertEqual(task.status, "OPEN")
         self.assertEqual(task.tag.count(), 2)
 
-
     def test_update_task(self):
         task = Task.objects.create(
             title="Original Task",
             description="Original description",
             Due_date=date.today(),
-            status="OPEN"
+            status="OPEN",
         )
 
         task.title = "Updated Task"
@@ -51,7 +51,7 @@ class TaskModelTestCase(TestCase):
             title="Task to Delete",
             description="Description to delete",
             Due_date=date.today(),
-            status="OPEN"
+            status="OPEN",
         )
         task_id = task.id
         task.delete()
@@ -59,3 +59,15 @@ class TaskModelTestCase(TestCase):
         with self.assertRaises(Task.DoesNotExist):
             # Attempt to retrieve the deleted task should raise a DoesNotExist exception
             Task.objects.get(id=task_id)
+
+    def test_str_method_returns_title(self):
+        # Create a Task instance
+        task = Task.objects.create(
+            title="Valid Task",
+            description="Valid description",
+            Due_date=date.today(),
+            status="OPEN",
+        )
+        task.tag.add(self.tag1)
+        # Check that the __str__ method returns the title
+        self.assertEqual(str(task), "Valid Task")
