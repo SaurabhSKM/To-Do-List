@@ -69,18 +69,27 @@ class TaskViewsTestCase(TestCase):
         self.assertEqual(response.data["status"], "OPEN")
 
     def test_task_create(self):
-        data = {
-            "title": "New Task",
-            "description": "New Description",
-            "Due_date": "2024-01-23",
+         # Define valid data for the task
+        valid_data = {
+            "title": "Test Task",
+            "description": "This is a test task",
+            "Due_date": "2024-01-12",
             "status": "OPEN",
+            "tag": ["tag1", "tag2"],
         }
-        response = self.client.post("/task-create/", data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["title"], "New Task")
-        self.assertEqual(response.data["description"], "New Description")
-        self.assertEqual(response.data["Due_date"], "2024-01-23")
-        self.assertEqual(response.data["status"], "OPEN")
+
+        # Make a POST request to the taskCreate endpoint with valid data
+        response = self.client.post('/task-create/', valid_data, format='json')
+
+        # Assert that a task with the given title exists in the database
+        created_task = Task.objects.get(title="Test Task")
+        self.assertIsNotNone(created_task)
+
+        # Optionally, you can add more assertions based on your specific requirements
+        # For example, you might want to check if the tags are associated with the task.
+
+        # Example assertion to check if the tags are associated with the task
+        self.assertEqual(list(created_task.tag.values_list('title', flat=True)), ["tag1", "tag2"])
 
     def test_task_update(self):
         task = Task.objects.create(

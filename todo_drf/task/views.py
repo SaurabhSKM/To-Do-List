@@ -62,12 +62,37 @@ def taskUpdate(request, pk):
 @api_view(["POST"])
 @permission_classes((IsAuthenticated,))
 def taskCreate(request):
-    serializer = TaskSerializer(data=request.data)
+    # Extract data from the request
+    title = request.data.get("title")
+    description = request.data.get("description")
+    due_date = request.data.get("Due_date")
+    status = request.data.get("status")
+    tag_titles = request.data.get("tag", [])
+
+    # Check if the tags exist, create them if not present
+    tags = []
+    for tag_title in tag_titles:
+        tag, created = Tag.objects.get_or_create(title=tag_title, defaults={"id": tag_title})
+        tags.append(tag)
+
+    # Create a new task with the extracted data and tags
+    task_data = {
+        "title": title,
+        "description": description,
+        "Due_date": due_date,
+        "status": status,
+    }
+
+    # Adding tags to the task data
+    task_data["tag"] = tags
+
+    serializer = TaskSerializer(data=task_data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
     else :
         return Response("Data is invalid")
+
 
 @api_view(["DELETE"])
 @permission_classes((IsAuthenticated,))

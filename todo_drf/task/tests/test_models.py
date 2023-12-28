@@ -71,5 +71,7 @@ class TaskModelTestCase(TestCase):
         task.tag.add(self.tag1)
         # Check that the __str__ method returns the title
         self.assertEqual(str(task), "Valid Task")
-
+        
+    def test_str_method_of_tag(self):
+        self.assertEqual(str(self.tag1),"Tag1")
     
