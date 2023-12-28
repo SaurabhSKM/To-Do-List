@@ -33,7 +33,7 @@ A To-do List Webapp made using REST Apis with unit and integration testing
 4. Create a superuser:
 
     ```
-    python manage.py createsuperuser <name>
+    python manage.py createsuperuser 
     ```
 ## Running the Development Server
 
