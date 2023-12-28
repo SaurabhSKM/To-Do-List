@@ -5,11 +5,12 @@ from django.utils import timezone
 
 # Create your models here.
 class Tag(models.Model):
+    id  = models.CharField(max_length=50,unique=True,blank=False,primary_key=True)
     title = models.CharField(max_length=50, unique=True, blank=False)
     objects = models.Manager()
 
-    """def __str__(self):
-        return self.title"""
+    def __str__(self):
+        return self.title
 
 
 class Task(models.Model):

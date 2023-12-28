@@ -65,8 +65,9 @@ def taskCreate(request):
     serializer = TaskSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-    return Response(serializer.data)
-
+        return Response(serializer.data)
+    else :
+        return Response("Data is invalid")
 
 @api_view(["DELETE"])
 @permission_classes((IsAuthenticated,))

@@ -6,8 +6,8 @@ from ..models import Task, Tag
 
 class TaskEdgeCases(TestCase):
     def setUp(self):
-        self.tag1 = Tag.objects.create(title="Tag1")
-        self.tag2 = Tag.objects.create(title="Tag2")
+        self.tag1 = Tag.objects.create(id="Tag1",title="Tag1")
+        self.tag2 = Tag.objects.create(id="Tag2",title="Tag2")
 
     def test_create_task_with_empty_title(self):
         with self.assertRaises(ValidationError):
@@ -52,29 +52,29 @@ class TaskEdgeCases(TestCase):
 
 
 class TagEdgeCase(TestCase):
-    def test_create_tag_with_empty_title(self):
+    def test_create_tag_with_empty_title_and_id(self):
         with self.assertRaises(ValidationError):
-            tag = Tag(title="")
+            tag = Tag(id="",title="")
             tag.full_clean()
 
-    def test_create_tag_with_long_title(self):
+    def test_create_tag_with_long_title_and_id(self):
         # Create a title longer than the allowed max_length
         long_title = "A" * 51
         with self.assertRaises(ValidationError):
-            tag = Tag(title=long_title)
+            tag = Tag(id=long_title,title=long_title)
             tag.full_clean()
 
     def test_create_tag_with_valid_data(self):
         # Create a tag with valid data
-        tag = Tag(title="ValidTitle")
+        tag = Tag(id="ValidID",title="ValidTitle")
         tag.full_clean()  # This should not raise a ValidationError
 
-    def test_create_tag_with_duplicate_title(self):
+    def test_create_tag_with_duplicate_title_and_id(self):
         # Create a tag with a duplicate title
-        tag1 = Tag(title="DuplicateTitle")
+        tag1 = Tag(id="ValidID",title="DuplicateTitle")
         tag1.save()
 
         # Try to create another tag with the same title
         with self.assertRaises(ValidationError):
-            tag2 = Tag(title="DuplicateTitle")
+            tag2 = Tag(id="ValidID",title="DuplicateTitle")
             tag2.full_clean()
