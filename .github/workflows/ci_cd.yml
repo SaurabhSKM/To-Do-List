@@ -26,3 +26,11 @@ jobs:
     - name: Run tests
       run: |
         python todo_drf/manage.py test task.tests
+    
+    - name: Black test
+      uses: psf/black@stable
+    
+    - name: Flake8 test
+      uses: py-actions/flake8@v2
+    
+        
