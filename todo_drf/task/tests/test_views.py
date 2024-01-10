@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from rest_framework.test import APIClient
 from rest_framework import status
 from ..models import Task, Tag
-from ..serializers import TaskSerializer, TagSerializer
 
 
 class TaskViewsTestCase(TestCase):
@@ -79,7 +78,7 @@ class TaskViewsTestCase(TestCase):
         }
 
         # Make a POST request to the taskCreate endpoint with valid data
-        response = self.client.post("/task-create/", valid_data, format="json")
+        self.client.post("/task-create/", valid_data, format="json")
 
         # Assert that a task with the given title exists in the database
         created_task = Task.objects.get(title="Test Task")
@@ -147,7 +146,7 @@ class TaskViewsTestCase(TestCase):
         # Make a POST request to the taskCreate endpoint with invalid data
         response = self.client.post("/task-create/", invalid_data, format="json")
 
-        # Assert that the response status code is 200 (or the appropriate status code for your use case)
+        # Assert that the response status code is 200 (or the appropriate status code)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # Assert that the response contains the expected message for invalid data

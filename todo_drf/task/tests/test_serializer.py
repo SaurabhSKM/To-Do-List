@@ -1,7 +1,6 @@
 from django.test import TestCase
 from ..models import Tag, Task
 from ..serializers import TagSerializer, TaskSerializer
-import datetime
 
 
 class TagSerializerTestCase(TestCase):

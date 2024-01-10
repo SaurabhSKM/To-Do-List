@@ -1,5 +1,3 @@
-from django.test import TestCase
-
 # Create your tests here.
 from .test_models import TaskModelTestCase
 from .test_serializer import TagSerializerTestCase, TaskSerializerTestCase

@@ -1,7 +1,6 @@
 from django.contrib import admin
 from .models import Task, Tag
-from django.core.exceptions import ValidationError
-from django.utils import timezone
+
 
 # Register your models here.
 
