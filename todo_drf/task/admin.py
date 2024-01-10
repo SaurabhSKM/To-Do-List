@@ -24,8 +24,14 @@ class TaskAdmin(admin.ModelAdmin):
 
 
 class TagAdmin(admin.ModelAdmin):
-    list_display = ("id","title",)
-    search_fields = ("id","title",)
+    list_display = (
+        "id",
+        "title",
+    )
+    search_fields = (
+        "id",
+        "title",
+    )
 
 
 admin.site.register(Task, TaskAdmin)

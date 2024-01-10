@@ -69,7 +69,7 @@ class TaskViewsTestCase(TestCase):
         self.assertEqual(response.data["status"], "OPEN")
 
     def test_task_create(self):
-         # Define valid data for the task
+        # Define valid data for the task
         valid_data = {
             "title": "Test Task",
             "description": "This is a test task",
@@ -79,7 +79,7 @@ class TaskViewsTestCase(TestCase):
         }
 
         # Make a POST request to the taskCreate endpoint with valid data
-        response = self.client.post('/task-create/', valid_data, format='json')
+        response = self.client.post("/task-create/", valid_data, format="json")
 
         # Assert that a task with the given title exists in the database
         created_task = Task.objects.get(title="Test Task")
@@ -89,7 +89,9 @@ class TaskViewsTestCase(TestCase):
         # For example, you might want to check if the tags are associated with the task.
 
         # Example assertion to check if the tags are associated with the task
-        self.assertEqual(list(created_task.tag.values_list('title', flat=True)), ["tag1", "tag2"])
+        self.assertEqual(
+            list(created_task.tag.values_list("title", flat=True)), ["tag1", "tag2"]
+        )
 
     def test_task_update(self):
         task = Task.objects.create(
@@ -124,8 +126,8 @@ class TaskViewsTestCase(TestCase):
 
     def test_tag_list(self):
         # Create some tags for testing
-        Tag.objects.create(id="Tag1",title="Tag1")
-        Tag.objects.create(id="Tag2",title="Tag2")
+        Tag.objects.create(id="Tag1", title="Tag1")
+        Tag.objects.create(id="Tag2", title="Tag2")
 
         response = self.client.get("/tag-list/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -135,10 +137,15 @@ class TaskViewsTestCase(TestCase):
 
     def test_task_create_invalid_data(self):
         # Define invalid data (modify this based on your serializer validation requirements)
-        invalid_data = {'title': '', 'description': '', 'Due_date': 'invalid_date', 'status': 'INVALID_STATUS'}
+        invalid_data = {
+            "title": "",
+            "description": "",
+            "Due_date": "invalid_date",
+            "status": "INVALID_STATUS",
+        }
 
         # Make a POST request to the taskCreate endpoint with invalid data
-        response = self.client.post('/task-create/', invalid_data, format='json')
+        response = self.client.post("/task-create/", invalid_data, format="json")
 
         # Assert that the response status code is 200 (or the appropriate status code for your use case)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -147,4 +154,4 @@ class TaskViewsTestCase(TestCase):
         self.assertEqual(response.data, "Data is invalid")
 
         # Example assertion to check if the number of tasks in the database is not increased
-        self.assertEqual(Task.objects.count(),0)
+        self.assertEqual(Task.objects.count(), 0)

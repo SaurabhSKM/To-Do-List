@@ -72,7 +72,9 @@ def taskCreate(request):
     # Check if the tags exist, create them if not present
     tags = []
     for tag_title in tag_titles:
-        tag, created = Tag.objects.get_or_create(title=tag_title, defaults={"id": tag_title})
+        tag, created = Tag.objects.get_or_create(
+            title=tag_title, defaults={"id": tag_title}
+        )
         tags.append(tag)
 
     # Create a new task with the extracted data and tags
@@ -90,7 +92,7 @@ def taskCreate(request):
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
-    else :
+    else:
         return Response("Data is invalid")
 
 
