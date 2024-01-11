@@ -104,13 +104,16 @@ class TaskViewsTestCase(TestCase):
             "description": "Updated Description",
             "Due_date": "2024-01-12",
             "status": "OPEN",
+            "tag": ["tag1", "tag2"],
         }
         response = self.client.post(f"/task-update/{task.id}/", data)
+        print(response.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["title"], "Updated Task")
         self.assertEqual(response.data["description"], "Updated Description")
         self.assertEqual(response.data["Due_date"], "2024-01-12")
         self.assertEqual(response.data["status"], "OPEN")
+        self.assertEqual(response.data["tag"], ["tag1", "tag2"])
 
     def test_task_delete(self):
         task = Task.objects.create(
@@ -133,6 +136,32 @@ class TaskViewsTestCase(TestCase):
         self.assertEqual(
             len(response.data), 2
         )  # Assuming there are 2 tags in the database
+
+    def test_task_update_invalid_data(self):
+        # Define invalid data (modify this based on your serializer validation requirements)
+        task = Task.objects.create(
+            title="Task1",
+            description="Description1",
+            Due_date="2024-01-12",
+            status="OPEN",
+        )
+        invalid_data = {
+            "title": "",
+            "description": "",
+            "Due_date": "invalid_date",
+            "status": "INVALID_STATUS",
+        }
+
+        # Make a POST request to the taskCreate endpoint with invalid data
+        response = self.client.post(
+            f"/task-update/{task.id}/", invalid_data, format="json"
+        )
+
+        # Assert that the response status code is 200 (or the appropriate status code)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # Assert that the response contains the expected message for invalid data
+        self.assertEqual(response.data, "Data is invalid")
 
     def test_task_create_invalid_data(self):
         # Define invalid data (modify this based on your serializer validation requirements)

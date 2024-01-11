@@ -53,10 +53,37 @@ class TaskUpdate(APIView):
 
     def post(self, request, pk):
         task = Task.objects.get(id=pk)
-        serializer = TaskSerializer(instance=task, data=request.data)
+        title = request.data.get("title")
+        description = request.data.get("description")
+        due_date = request.data.get("Due_date")
+        status = request.data.get("status")
+        tag_titles = request.data.get("tag", [])
+
+        # Check if the tags exist, create them if not present
+        tags = []
+        for tag_title in tag_titles:
+            tag, created = Tag.objects.get_or_create(
+                title=tag_title, defaults={"id": tag_title}
+            )
+            tags.append(tag)
+
+        # Create a new task with the extracted data and tags
+        task_data = {
+            "title": title,
+            "description": description,
+            "Due_date": due_date,
+            "status": status,
+        }
+
+        # Adding tags to the task data
+        task_data["tag"] = tags
+
+        serializer = TaskSerializer(instance=task, data=task_data)
         if serializer.is_valid():
             serializer.save()
-        return Response(serializer.data)
+            return Response(serializer.data)
+        else:
+            return Response("Data is invalid")
 
 
 class TaskCreate(APIView):
