@@ -106,8 +106,7 @@ class TaskViewsTestCase(TestCase):
             "status": "OPEN",
             "tag": ["tag1", "tag2"],
         }
-        response = self.client.post(f"/task-update/{task.id}/", data)
-        print(response.data)
+        response = self.client.post(f"/task-update/{task.id}/", data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["title"], "Updated Task")
         self.assertEqual(response.data["description"], "Updated Description")
